@@ -6,13 +6,13 @@ import java.util.Queue;
  * james marlow
  * 1249807
  *
- *
+ *i got this class straight from the lab so there is some extra stuff we dont need
  */
 
 public class BinaryTree<E> {
     private E val;
     private BinaryTree<E> parent;
-    private BinaryTree<E> left, right;
+    public BinaryTree<E> left, right;
 
 
     public E getVal() {
@@ -73,7 +73,7 @@ public class BinaryTree<E> {
             return;
         }
         if (right != null && right.parent() == this) {
-            right.setParent(null);
+            left.setParent(null);
         }
         right = newRight;
         right.setParent(this);
@@ -188,8 +188,7 @@ public class BinaryTree<E> {
         binaryTree.setRight(c);
         c.setLeft(d);
 
-
-        System.out.println(binaryTree.toStringPre());
+        System.out.println(binaryTree.levelOrderTraversal().toString());
 
     }
 
