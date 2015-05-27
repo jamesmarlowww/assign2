@@ -35,11 +35,11 @@ public class GUITree extends JPanel {
 
 
         binarySearchTree = new BinarySearchTree<>();
-        binarySearchTree.add("z", 4);
+        binarySearchTree.add("marlow", 4);
         binarySearchTree.add("a", 3);
         binarySearchTree.add("b", 1);
-        binarySearchTree.add("e", 5);
-        binarySearchTree.add("j", 9);
+        binarySearchTree.add("yolo", 5);
+        binarySearchTree.add("zuse", 9);
 
 
         JButton go = new JButton("Go");
@@ -49,10 +49,9 @@ public class GUITree extends JPanel {
 
                 String command = textField.getText();
 
-
                 executeCommand(command);
 
-                printArea.setText(command);
+                printArea.setText(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()));
 
 
             }
@@ -77,20 +76,31 @@ public class GUITree extends JPanel {
 
 
         if (s[0].equals("add")) {
-            //binarySearchTree.add(s[1]);
-//            refreshUI();
+            int mark = Integer.parseInt(s[2]);         //validity has already been checked in isCommandValid()
+            binarySearchTree.add(s[1], mark);
             return;
         }
         if (s[0].equals("search")) {
-            // binarySearchTree.contains(s[1]);
+            if (binarySearchTree.contains(s[1])) {
+                popUpDisplayStr("Tree contains value");
+            } else {
+                popUpDisplayStr("Tree doesn't contain value");
+            }
             return;
         }
 
         if (s[0].equals("remove")) {
+            binarySearchTree.remove(s[1]);
+            System.out.println("in remove");
             return;
         }
 
         if (s[0].equals("contains")) {
+            if (binarySearchTree.contains(s[1])) {
+                popUpDisplayStr("Tree contains value");
+            } else {
+                popUpDisplayStr("Tree doesn't contain value");
+            }
             return;
         }
 
@@ -98,28 +108,29 @@ public class GUITree extends JPanel {
             return;
         }
 
-
-        pleaseEnterValid();
         System.out.println("before bottom of execute command");
+        pleaseEnterValid();
 
 
     }
 
     public boolean isCommandValid(String[] string) {
         boolean result = true;
-        if (string.length != 3 || string.length < 0 || string == null) {
+        if (string.length > 3 || string.length < 0 || string == null) {
+            System.out.println(string.length);
             result = false;
         }
 
-        try {
-            int mark = Integer.parseInt(string[2]);
-
-        } catch (Exception e) {
-            result = false;
+        if (string.length > 2) {
+            try {
+                int mark = Integer.parseInt(string[2]);
+            } catch (Exception e) {
+                result = false;
+            }
         }
-
-
         return result;
+
+
     }
 
     // pop up or something
@@ -153,6 +164,30 @@ public class GUITree extends JPanel {
         });
 
 
+    }
+
+    public void popUpDisplayStr(String str) {
+        JButton button = new JButton("Close");
+        JLabel format1 = new JLabel(str);
+
+
+        JPanel panel = new JPanel();
+        final JFrame frame = new JFrame();
+
+        final JTextField textField = new JTextField();
+        frame.setPreferredSize(new Dimension(400, 200));
+        frame.add(panel, BorderLayout.CENTER);
+        frame.pack();
+        panel.add(button);
+        panel.add(format1);
+
+        frame.setVisible(true);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false);
+            }
+        });
     }
 
     public void paintComponent(Graphics g) {
