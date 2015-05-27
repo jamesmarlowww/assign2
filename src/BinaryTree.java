@@ -11,12 +11,16 @@ import java.util.Queue;
 
 public class BinaryTree<E> {
     private E val;
+    private int mark;
     private BinaryTree<E> parent;
     public BinaryTree<E> left, right;
 
 
     public E getVal() {
         return val;
+    }
+    public int getMark() {
+        return mark;
     }
 
     public BinaryTree() {
@@ -26,9 +30,10 @@ public class BinaryTree<E> {
 
     }
 
-    public BinaryTree(E value) {
+    public BinaryTree(E value, int mark) {
         //// Write your code below
         val = value;
+        this.mark = mark;
         right = left = new BinaryTree<E>();
         setLeft(left);
         setRight(right);
@@ -179,10 +184,10 @@ public class BinaryTree<E> {
 
 
     public static void main(String[] args) {
-        BinaryTree<String> binaryTree = new BinaryTree<>("A");
-        BinaryTree<String> b = new BinaryTree<>("B");
-        BinaryTree<String> c = new BinaryTree<>("C");
-        BinaryTree<String> d = new BinaryTree<>("D");
+        BinaryTree<String> binaryTree = new BinaryTree<>("A", 2);
+        BinaryTree<String> b = new BinaryTree<>("B", 2);
+        BinaryTree<String> c = new BinaryTree<>("C",4);
+        BinaryTree<String> d = new BinaryTree<>("D", 7);
 
         binaryTree.setLeft(b);
         binaryTree.setRight(c);

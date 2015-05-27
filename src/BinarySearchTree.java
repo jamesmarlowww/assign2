@@ -1,5 +1,6 @@
 import sun.invoke.empty.Empty;
 
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -16,16 +17,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
         size = 0;
     }
 
-//    public BinaryTree<E> locate(BinaryTree<E> rootTree, E val){
-//        E rootVal=rootTree.getVal();
-//        BinaryTree<E> child;
-//        System.out.println(val);
-//        if(rootVal.equals(val)) return rootTree;
-//        if(val.compareTo(rootVal)<0) child=rootTree.left();
-//        else child=root.right();
-//        if (child.isEmpty()) return rootTree;
-//        else return locate(child, val);
-//    }
+
 
     protected BinaryTree<E> locate(BinaryTree<E> rootNode, E val) {
         E rootVal = rootNode.getVal();
@@ -33,7 +25,6 @@ public class BinarySearchTree<E extends Comparable<E>> {
         if (rootVal == null) {
             return rootNode;
         }
-        System.out.println("root node is " +rootNode.getVal());
         if (rootVal.equals(val))
             return rootNode;
         if (val.compareTo(rootVal) < 0) child = rootNode.left();
@@ -55,10 +46,10 @@ public class BinarySearchTree<E extends Comparable<E>> {
         else return loc.getVal();
     }
 
-    public void add(E value) {
+    public void add(E value, int mark) {
         BinaryTree<E> addLoc = locate(root, value);
 
-        BinaryTree<E> newNode = new BinaryTree<E>(value);
+        BinaryTree<E> newNode = new BinaryTree<E>(value, mark);
         if (root.isEmpty()) {
             root = newNode;
         } else {
@@ -88,32 +79,10 @@ public class BinarySearchTree<E extends Comparable<E>> {
         } else if (locNode.equals(locNode.parent().right())) {
             locNode.parent().setRight(removeNode(locNode));
         }
-
     }
-//
-//    public void remove(E v){
-////Remove the first occurrence of v
-//        if(!contains(v)) return;
-//        BinaryTree<E> locNode = locate(root, v);
-//// Find the first occurrence of v
-//
-//        if(locNode.equals(root))
-//            root=removeNode(locNode);
-//        else if(locNode.equals(locNode.parent().left()))
-//            locNode.parent().setLeft(removeNode(locNode));
-//        else
-//            locNode.parent().setRight(removeNode(locNode));
-//    }
 
 
     public BinaryTree<E> predecessor(BinaryTree<E> tree) {
-//        BinaryTree<E> binaryTree = tree;
-//        binaryTree = binaryTree.left; // need if statment check not null. if null go to right side
-//        while(binaryTree != null) {
-//            binaryTree = binaryTree.right;
-//        }
-//        return binaryTree;
-
         BinaryTree<E> match = null;
         BinaryTree<E> current = root;
         BinaryTree<E> predecessor = null;
@@ -177,24 +146,37 @@ public class BinarySearchTree<E extends Comparable<E>> {
         //// Write your code below
         String s = "";
         if (root.getVal() != null) {
-            s = "(" + root.getVal() + ":" + toStringPreOrder(root.left) + ")(" + toStringPreOrder(root.right) + ")";
+            s = "(" + root.getVal()+", "+root.getMark() + ":" + toStringPreOrder(root.left) + ")(" + toStringPreOrder(root.right) + ")";
         }
         return s;
         //// Write your code above
     }
 
+    public BinaryTree<E> getRoot() {
+        return root;
+    }
+
+    public void drawTree(Graphics g) {
+//        super.paintComponent(g);
+//        Graphics2D g2d = (Graphics2D) g;
+//        g2d.setColor(Color.BLACK);
+//        System.out.println("W:" + getSize().width + ", H:" + getSize().height);
+//        g2d.fillRect(0, 0, getSize().width, getSize().height);
+    }
+
+
     public static void main(String[] args) {
-        BinarySearchTree<Integer> binarySearchTree = new BinarySearchTree<>();
-        binarySearchTree.add(3);
-        binarySearchTree.add(1);
-        binarySearchTree.add(4);
-        binarySearchTree.add(2);
-        binarySearchTree.add(5);
-        binarySearchTree.add(10);
-        binarySearchTree.add(7);
+        BinarySearchTree<String> binarySearchTree = new BinarySearchTree<>();
+        binarySearchTree.add("h", 3);
+        binarySearchTree.add("c", 4);
+        binarySearchTree.add("p", 4);
+        binarySearchTree.add("z", 2);
+        binarySearchTree.add("e", 5);
+        binarySearchTree.add("i", 10);
+        binarySearchTree.add("q", 7);
 
 
-        binarySearchTree.remove(3);
+        binarySearchTree.remove("e");
         System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.root));
     }
 
