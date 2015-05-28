@@ -105,6 +105,13 @@ public class GUITree extends JPanel {
         }
 
         if (s[0].equals("change")) {
+            int mark = Integer.parseInt(s[3]);
+            if(binarySearchTree.change(s[1], s[2], mark)) {
+                binarySearchTree.change(s[1], s[2], mark);
+            } else {
+                pleaseEnterValid();
+            }
+
             return;
         }
 
@@ -116,18 +123,25 @@ public class GUITree extends JPanel {
 
     public boolean isCommandValid(String[] string) {
         boolean result = true;
-        if (string.length > 3 || string.length < 0 || string == null) {
+        if (string.length > 4 || string.length < 0 || string == null) {
             System.out.println(string.length);
             result = false;
         }
 
-        if (string.length > 2) {
+        if(string[0].equals("change")) {
+            try {
+                int mark = Integer.parseInt(string[3]);
+            } catch (Exception e) {
+                result = false;
+            }
+        } else if (string.length > 2) {
             try {
                 int mark = Integer.parseInt(string[2]);
             } catch (Exception e) {
                 result = false;
             }
         }
+
         return result;
 
 

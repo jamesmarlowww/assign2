@@ -19,9 +19,9 @@ public class BinaryTree<E> {
     public E getVal() {
         return val;
     }
-    public int getMark() {
-        return mark;
-    }
+    public int getMark() {return mark;  }
+    public void setVal(E newVal) {val = newVal;}
+    public void setMark(int mark) {this.mark = mark;}
 
     public BinaryTree() {
         val = null;

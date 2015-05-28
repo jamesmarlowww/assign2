@@ -67,6 +67,21 @@ public class BinarySearchTree<E extends Comparable<E>> {
         }
     }
 
+    public boolean change(E existingValue, E newValue, int newMark) {
+        boolean result = false;
+
+        if(contains(existingValue)) {
+            BinaryTree<E> loc = locate(root, existingValue);
+            if(loc!= null) {
+                loc.setVal(newValue);
+                loc.setMark(newMark);
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
     public void remove(E v) {
         //Remove the first occurrence of v
         if (!contains(v)) return;
