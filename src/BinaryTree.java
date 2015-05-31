@@ -6,7 +6,7 @@ import java.util.Queue;
  * james marlow
  * 1249807
  *
- *i got this class straight from the lab so there is some extra stuff we dont need
+ *i got this class straight from my lab exerise so there is some extra stuff we dont need
  */
 
 public class BinaryTree<E> {

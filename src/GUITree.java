@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
 
 /**
  * Created by James on 5/20/2015.
@@ -10,25 +9,46 @@ import java.beans.PropertyChangeListener;
 public class GUITree extends JPanel {
     BinarySearchTree<String> binarySearchTree;
 
-    public static void main(String[] args) {
-        GUITree t = new GUITree();
+    Graphics2D gfx;
 
+
+    public static void main(String[] args) {
+
+//        JFrame frame = new JFrame("Test");   //  y
+//        frame.getContentPane().add(new MainPanel());  // n
+//        frame.setBounds(100, 100, 600, 400);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setVisible(true);
+
+
+        GUITree guiTreePanel = new GUITree(1000);
 
     }
 
 
-    public GUITree() {
+    public GUITree(){}
+
+
+
+    // is the panel
+    public GUITree(int preferredSize) {
+
         JPanel panel = new JPanel();
         JFrame frame = new JFrame();
 
+
+        frame.setBounds(100, 100, 600, 400);
+
         final JTextField textField = new JTextField();
         textField.setPreferredSize(new Dimension(150, 24));
-        final JTextArea printArea = new JTextArea(20, 40);
+        // final JTextArea printArea = new JTextArea(20, 40);
 
 
         panel.add(textField);
 
-        frame.setPreferredSize(new Dimension(500, 415));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(new GUITree());
+        frame.setPreferredSize(new Dimension(preferredSize, preferredSize));
         frame.add(panel, BorderLayout.CENTER);
         frame.pack();
         frame.setVisible(true);
@@ -51,19 +71,40 @@ public class GUITree extends JPanel {
 
                 executeCommand(command);
 
-                printArea.setText(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()));
-
+                //printArea.setText(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()));
 
             }
         });
 
         panel.add(go);
-        panel.add(printArea);
-        printArea.setText(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()));
-
+        //panel.add(printArea);
+        //printArea.setText(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()));
+        Graphics g = panel.getGraphics();
+        g.setColor(Color.blue);
+        printComponent(g);
+        binarySearchTree.drawTree(g);
+        g.drawLine(0, 50, 20, 50);
+        g.drawRect(1, 1, 100, 100);
 
     }
 
+    public static class MainPanel extends JPanel {
+        MainPanel() {
+        }
+
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.setColor(Color.BLACK);
+            int width = getWidth();
+            int height = getHeight();
+            drawBoard((Graphics2D) g, width, height);
+        }
+
+        private void drawBoard(Graphics2D g2, int width, int height) {
+            g2.drawLine(10,10, 100,100);
+        }
+
+    }
 
     public void executeCommand(String command) {
         String[] s = command.split(" ");
@@ -106,7 +147,7 @@ public class GUITree extends JPanel {
 
         if (s[0].equals("change")) {
             int mark = Integer.parseInt(s[3]);
-            if(binarySearchTree.change(s[1], s[2], mark)) {
+            if (binarySearchTree.change(s[1], s[2], mark)) {
                 binarySearchTree.change(s[1], s[2], mark);
             } else {
                 pleaseEnterValid();
@@ -128,7 +169,7 @@ public class GUITree extends JPanel {
             result = false;
         }
 
-        if(string[0].equals("change")) {
+        if (string[0].equals("change")) {
             try {
                 int mark = Integer.parseInt(string[3]);
             } catch (Exception e) {
@@ -202,10 +243,18 @@ public class GUITree extends JPanel {
                 frame.setVisible(false);
             }
         });
+
+
     }
 
+    @Override
     public void paintComponent(Graphics g) {
-        binarySearchTree.drawTree(g);
+        //binarySearchTree.drawTree(g);
+        super.paintComponent(g);
+        g.setColor(Color.BLACK);
+        int width = getWidth();
+        int height = getHeight();
+        drawTree((Graphics2D) g, width, height);
 
 //        super.paintComponent(g);
 //        Graphics2D g2d = (Graphics2D) g;
@@ -215,4 +264,10 @@ public class GUITree extends JPanel {
 
 
     }
+
+    private void drawTree(Graphics2D g2, int width, int height) {
+        g2.drawLine(10,10, 100,100);
+    }
+
+
 }

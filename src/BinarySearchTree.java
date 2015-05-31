@@ -38,6 +38,12 @@ public class BinarySearchTree<E extends Comparable<E>> {
         BinaryTree<E> loc = locate(root, value);
         return value.equals(loc.getVal());
     }
+    private boolean contains(String value) {
+        if (root.isEmpty()) return false;
+        E valueE =  (E) value;
+        BinaryTree<E> loc = locate(root, valueE);
+        return value.equals(loc.getVal());
+    }
 
     public E get(E value) {
         if (root.isEmpty()) return null;
@@ -48,6 +54,15 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
     public void add(E value, int mark) {
         BinaryTree<E> addLoc = locate(root, value);
+
+        int x = 1;
+        String valueStr = (String) value;
+        if(contains(value)) {
+            while(contains(valueStr+"("+String.valueOf(x)+")")) {
+                x++;
+            }
+            value = (E) (valueStr+"("+String.valueOf(x)+")");
+        }
 
         BinaryTree<E> newNode = new BinaryTree<E>(value, mark);
         if (root.isEmpty()) {
@@ -65,6 +80,10 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
 
         }
+    }
+
+    public <I, O> O convert(I input, Class<O> outputClass) throws Exception {
+        return input == null ? null : outputClass.getConstructor(String.class).newInstance(input.toString());
     }
 
     public boolean change(E existingValue, E newValue, int newMark) {
@@ -175,14 +194,16 @@ public class BinarySearchTree<E extends Comparable<E>> {
 //        g2d.setColor(Color.BLACK);
 //        System.out.println("W:" + getSize().width + ", H:" + getSize().height);
 //        g2d.fillRect(0, 0, getSize().width, getSize().height);
+        g.drawString(root.getVal()+" : "+root.getMark(), 1, 1);
+        g.drawRect(6, 6, 6, 6);
     }
 
 
     public static void main(String[] args) {
         BinarySearchTree<String> binarySearchTree = new BinarySearchTree<>();
         binarySearchTree.add("h", 3);
-        binarySearchTree.add("c", 4);
-        binarySearchTree.add("p", 4);
+        binarySearchTree.add("h(1)", 4);
+        binarySearchTree.add("h(2)", 4);
         binarySearchTree.add("z", 2);
         binarySearchTree.add("e", 5);
         binarySearchTree.add("i", 10);
@@ -190,7 +211,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
 
         binarySearchTree.remove("e");
-        System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.root));
+        //System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.root));
     }
 
 
