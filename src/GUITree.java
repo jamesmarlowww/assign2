@@ -8,18 +8,11 @@ import java.awt.event.ActionListener;
  */
 public class GUITree extends JPanel {
     BinarySearchTree<String> binarySearchTree;
+    BinaryTree root;
 
-    Graphics2D gfx;
 
 
     public static void main(String[] args) {
-
-//        JFrame frame = new JFrame("Test");   //  y
-//        frame.getContentPane().add(new MainPanel());  // n
-//        frame.setBounds(100, 100, 600, 400);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setVisible(true);
-
 
         GUITree guiTreePanel = new GUITree(1000);
 
@@ -41,7 +34,6 @@ public class GUITree extends JPanel {
 
         final JTextField textField = new JTextField();
         textField.setPreferredSize(new Dimension(150, 24));
-        // final JTextArea printArea = new JTextArea(20, 40);
 
 
         panel.add(textField);
@@ -79,12 +71,12 @@ public class GUITree extends JPanel {
         panel.add(go);
         //panel.add(printArea);
         //printArea.setText(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()));
+//        binarySearchTree.toStringPreOrder(binarySearchTree.getRoot());
+
         Graphics g = panel.getGraphics();
         g.setColor(Color.blue);
         printComponent(g);
-        binarySearchTree.drawTree(g);
-        g.drawLine(0, 50, 20, 50);
-        g.drawRect(1, 1, 100, 100);
+        root = binarySearchTree.getRoot();
 
     }
 
@@ -247,27 +239,64 @@ public class GUITree extends JPanel {
 
     }
 
+
+    //method is called in GUITree()
     @Override
     public void paintComponent(Graphics g) {
-        //binarySearchTree.drawTree(g);
+
         super.paintComponent(g);
         g.setColor(Color.BLACK);
-        int width = getWidth();
-        int height = getHeight();
-        drawTree((Graphics2D) g, width, height);
 
-//        super.paintComponent(g);
-//        Graphics2D g2d = (Graphics2D) g;
-//        g2d.setColor(Color.BLACK);
-//        System.out.println("W:" + getSize().width + ", H:" + getSize().height);
-//        g2d.fillRect(0, 0, getSize().width, getSize().height);
+        int width = getWidth()/2; //middle of panel
+        int height = 100; // just below the go button
+
+
+//        drawTree((Graphics2D) g, width, height, binarySearchTree.root);
+
+        //the ui doesnt load without a try catch. Should see full error message without try catch
+        try{
+            drawTree((Graphics2D) g, width, height, binarySearchTree.root);   // null pointer using binarySearchTree.root
+        } catch (NullPointerException e) {
+            System.out.println("null pointer: "+e);
+        }
+
+        //binarySearchTree.drawTree((Graphics2D) g, width, height);
+    }
+
+    private void drawTree(Graphics2D g2, int xPos, int yPos, BinaryTree root) {
+        //just trying different things, seeing if they work.
+//        if(binarySearchTree.getRoot().left()!= null) System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.root));
+//        System.out.println(root.toString());
+//
+//        g2.drawLine(xPos, yPos, xPos + 100, yPos + 100);
+//        g2.drawLine(xPos,yPos, xPos-100, yPos+100);
+
+
+
+        //// I planed to print out the tree like this but haven't been able to run it. Keep getting null pointers, have looked into it much yet tho
+        ///  Not sure if it will work , dont know if using g2 recursivly will work.
+
+
+
+        g2.drawString(root.toString(), xPos, yPos);  // Print like "value : key"
+
+        if(root.right.getVal()!= null) { // if there is a right node, draw line,
+            g2.drawLine(xPos,yPos, xPos+100,yPos+100);
+            drawTree((Graphics2D)g2, xPos+100,yPos+100, root.right);
+        }
+        if(root.left.getVal()!= null) {
+            g2.drawLine(xPos, yPos, xPos - 100, yPos + 100);
+            drawTree((Graphics2D)g2, xPos-100,yPos+100, root.left);
+        }
+
+
 
 
     }
 
-    private void drawTree(Graphics2D g2, int width, int height) {
-        g2.drawLine(10,10, 100,100);
-    }
+
+
+
 
 
 }

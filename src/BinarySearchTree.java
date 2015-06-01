@@ -8,7 +8,7 @@ import java.util.Queue;
  * Created by James on 5/18/2015.
  */
 public class BinarySearchTree<E extends Comparable<E>> {
-    private BinaryTree<E> root;
+    public BinaryTree<E> root;
     private int size;
 
 
@@ -173,6 +173,9 @@ public class BinarySearchTree<E extends Comparable<E>> {
     }
 
 
+    public String toString(BinaryTree root) {
+        return root.getVal()+" : "+ root.getMark();
+    }
 
     public String toStringPreOrder(BinaryTree root) {
         //// Write your code below
@@ -188,14 +191,11 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return root;
     }
 
-    public void drawTree(Graphics g) {
-//        super.paintComponent(g);
-//        Graphics2D g2d = (Graphics2D) g;
-//        g2d.setColor(Color.BLACK);
-//        System.out.println("W:" + getSize().width + ", H:" + getSize().height);
-//        g2d.fillRect(0, 0, getSize().width, getSize().height);
-        g.drawString(root.getVal()+" : "+root.getMark(), 1, 1);
-        g.drawRect(6, 6, 6, 6);
+    public void drawTree(Graphics2D g2, int xPos, int yPos) {
+
+        g2.drawLine(xPos,yPos, xPos+100,yPos+100);
+        g2.drawLine(xPos, yPos, xPos - 100, yPos + 100);
+//        g2.drawString(root.toString(), xPos, yPos);
     }
 
 

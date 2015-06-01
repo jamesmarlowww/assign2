@@ -30,6 +30,14 @@ public class BinaryTree<E> {
 
     }
 
+    public boolean hasLeft() {
+        return (left!= null);
+    }
+
+    public boolean hasRight() {
+        return (right!= null);
+    }
+
     public BinaryTree(E value, int mark) {
         //// Write your code below
         val = value;
@@ -150,6 +158,10 @@ public class BinaryTree<E> {
     public BinaryTree<E> left() {
 
         return left;
+    }
+
+    public String toString() {
+        return val+" : "+mark;
     }
 
 
