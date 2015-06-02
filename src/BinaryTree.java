@@ -10,7 +10,7 @@ import java.util.Queue;
  */
 
 public class BinaryTree<E> {
-    private E val;
+    public E val;
     private int mark;
     private BinaryTree<E> parent;
     public BinaryTree<E> left, right;

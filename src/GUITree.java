@@ -7,27 +7,37 @@ import java.awt.event.ActionListener;
  * Created by James on 5/20/2015.
  */
 public class GUITree extends JPanel {
-    BinarySearchTree<String> binarySearchTree;
+    BinarySearchTree<String> binarySearchTree =  new BinarySearchTree<>();
     BinaryTree root;
 
 
 
     public static void main(String[] args) {
-
         GUITree guiTreePanel = new GUITree(1000);
-
     }
 
 
-    public GUITree(){}
+    public GUITree(){
+        setUpTree();
+    }
 
+
+    public void setUpTree() {
+        if(binarySearchTree.root.val == null) {
+            binarySearchTree = new BinarySearchTree<>();
+            binarySearchTree.add("marlow", 4);
+            binarySearchTree.add("a", 3);
+            binarySearchTree.add("b", 1);
+            binarySearchTree.add("yolo", 5);
+            binarySearchTree.add("zuse", 9);
+        }
+    }
 
 
     // is the panel
     public GUITree(int preferredSize) {
-
-        JPanel panel = new JPanel();
-        JFrame frame = new JFrame();
+        final JPanel panel = new JPanel();
+        final JFrame frame = new JFrame();
 
 
         frame.setBounds(100, 100, 600, 400);
@@ -35,8 +45,11 @@ public class GUITree extends JPanel {
         final JTextField textField = new JTextField();
         textField.setPreferredSize(new Dimension(150, 24));
 
+        final JTextArea printArea = new JTextArea(50,50);
+
 
         panel.add(textField);
+
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setContentPane(new GUITree());
@@ -46,15 +59,11 @@ public class GUITree extends JPanel {
         frame.setVisible(true);
 
 
-        binarySearchTree = new BinarySearchTree<>();
-        binarySearchTree.add("marlow", 4);
-        binarySearchTree.add("a", 3);
-        binarySearchTree.add("b", 1);
-        binarySearchTree.add("yolo", 5);
-        binarySearchTree.add("zuse", 9);
-
+        final Graphics g = panel.getGraphics();
+        g.setColor(Color.BLACK);
 
         JButton go = new JButton("Go");
+        panel.add(go);
         go.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,40 +72,16 @@ public class GUITree extends JPanel {
 
                 executeCommand(command);
 
-                //printArea.setText(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()));
-
+//                Graphics g = getGraphics();
+//                if (g != null) paintComponent(g);
+//                else repaint();
+                paintComponent(g);
             }
         });
 
-        panel.add(go);
-        //panel.add(printArea);
-        //printArea.setText(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()));
-//        binarySearchTree.toStringPreOrder(binarySearchTree.getRoot());
-
-        Graphics g = panel.getGraphics();
-        g.setColor(Color.blue);
-        printComponent(g);
-        root = binarySearchTree.getRoot();
-
     }
 
-    public static class MainPanel extends JPanel {
-        MainPanel() {
-        }
 
-        public void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.setColor(Color.BLACK);
-            int width = getWidth();
-            int height = getHeight();
-            drawBoard((Graphics2D) g, width, height);
-        }
-
-        private void drawBoard(Graphics2D g2, int width, int height) {
-            g2.drawLine(10,10, 100,100);
-        }
-
-    }
 
     public void executeCommand(String command) {
         String[] s = command.split(" ");
@@ -174,9 +159,7 @@ public class GUITree extends JPanel {
                 result = false;
             }
         }
-
         return result;
-
 
     }
 
@@ -241,56 +224,35 @@ public class GUITree extends JPanel {
 
 
     //method is called in GUITree()
-    @Override
+
     public void paintComponent(Graphics g) {
 
         super.paintComponent(g);
         g.setColor(Color.BLACK);
 
-        int width = getWidth()/2; //middle of panel
-        int height = 100; // just below the go button
-
-
-//        drawTree((Graphics2D) g, width, height, binarySearchTree.root);
-
-        //the ui doesnt load without a try catch. Should see full error message without try catch
-        try{
-            drawTree((Graphics2D) g, width, height, binarySearchTree.root);   // null pointer using binarySearchTree.root
-        } catch (NullPointerException e) {
-            System.out.println("null pointer: "+e);
-        }
-
-        //binarySearchTree.drawTree((Graphics2D) g, width, height);
+        drawTree((Graphics2D) g, getWidth() / 2, 100, binarySearchTree.getRoot());
     }
 
+
+    int x = 0;
     private void drawTree(Graphics2D g2, int xPos, int yPos, BinaryTree root) {
-        //just trying different things, seeing if they work.
-//        if(binarySearchTree.getRoot().left()!= null) System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.root));
-//        System.out.println(root.toString());
-//
-//        g2.drawLine(xPos, yPos, xPos + 100, yPos + 100);
-//        g2.drawLine(xPos,yPos, xPos-100, yPos+100);
+
+        String s = root.toString();
+        if(root.getVal() == null) return;
+
+        g2.drawString(s, xPos, yPos);  // Print like "value : key"
 
 
+        System.out.println("---" + s);
 
-        //// I planed to print out the tree like this but haven't been able to run it. Keep getting null pointers, have looked into it much yet tho
-        ///  Not sure if it will work , dont know if using g2 recursivly will work.
-
-
-
-        g2.drawString(root.toString(), xPos, yPos);  // Print like "value : key"
-
-        if(root.right.getVal()!= null) { // if there is a right node, draw line,
+        if(root.right.getVal()!= null) {
             g2.drawLine(xPos,yPos, xPos+100,yPos+100);
-            drawTree((Graphics2D)g2, xPos+100,yPos+100, root.right);
+            drawTree((Graphics2D) g2, xPos + 100, yPos + 100, root.right);
         }
         if(root.left.getVal()!= null) {
             g2.drawLine(xPos, yPos, xPos - 100, yPos + 100);
-            drawTree((Graphics2D)g2, xPos-100,yPos+100, root.left);
+            drawTree((Graphics2D) g2, xPos - 100, yPos + 100, root.left);
         }
-
-
-
 
     }
 
