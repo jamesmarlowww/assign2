@@ -191,11 +191,24 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return root;
     }
 
-    public void drawTree(Graphics2D g2, int xPos, int yPos) {
+    public void drawTree(Graphics2D g2, int xPos, int yPos, BinaryTree root) {
 
-        g2.drawLine(xPos,yPos, xPos+100,yPos+100);
-        g2.drawLine(xPos, yPos, xPos - 100, yPos + 100);
-//        g2.drawString(root.toString(), xPos, yPos);
+        String s = root.toString();
+        if(root.getVal() == null) return;
+
+        g2.drawString(s, xPos, yPos);  // Print like "value : key"
+
+//        System.out.println("---" + s);
+
+        if(root.right.getVal()!= null) {
+            g2.drawLine(xPos,yPos, xPos+100,yPos+100);
+            drawTree((Graphics2D) g2, xPos + 100, yPos + 100, root.getRight());
+        }
+        if(root.left.getVal()!= null) {
+            g2.drawLine(xPos, yPos, xPos - 100, yPos + 100);
+            drawTree((Graphics2D) g2, xPos - 100, yPos + 100, root.getLeft());
+        }
+
     }
 
 

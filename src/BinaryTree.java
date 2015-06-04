@@ -13,6 +13,15 @@ public class BinaryTree<E> {
     public E val;
     private int mark;
     private BinaryTree<E> parent;
+
+    public BinaryTree<E> getLeft() {
+        return left;
+    }
+
+    public BinaryTree<E> getRight() {
+        return right;
+    }
+
     public BinaryTree<E> left, right;
 
 

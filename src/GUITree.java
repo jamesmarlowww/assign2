@@ -7,30 +7,34 @@ import java.awt.event.ActionListener;
  * Created by James on 5/20/2015.
  */
 public class GUITree extends JPanel {
-    BinarySearchTree<String> binarySearchTree =  new BinarySearchTree<>();
+    BinarySearchTree<String> binarySearchTree = new BinarySearchTree<>();
     BinaryTree root;
 
 
-
     public static void main(String[] args) {
+
         GUITree guiTreePanel = new GUITree(1000);
     }
 
 
-    public GUITree(){
+    public GUITree() {
         setUpTree();
+    }
+
+    //meant to be empty
+    public GUITree(BinarySearchTree bst) {
+        this.binarySearchTree = bst;
     }
 
 
     public void setUpTree() {
-        if(binarySearchTree.root.val == null) {
-            binarySearchTree = new BinarySearchTree<>();
-            binarySearchTree.add("marlow", 4);
-            binarySearchTree.add("a", 3);
-            binarySearchTree.add("b", 1);
-            binarySearchTree.add("yolo", 5);
-            binarySearchTree.add("zuse", 9);
-        }
+        binarySearchTree = new BinarySearchTree<>();
+        binarySearchTree.add("marlow", 4);
+        binarySearchTree.add("a", 3);
+        binarySearchTree.add("b", 1);
+        binarySearchTree.add("yolo", 5);
+        binarySearchTree.add("zuse", 9);
+
     }
 
 
@@ -45,7 +49,7 @@ public class GUITree extends JPanel {
         final JTextField textField = new JTextField();
         textField.setPreferredSize(new Dimension(150, 24));
 
-        final JTextArea printArea = new JTextArea(50,50);
+        final JTextArea printArea = new JTextArea(50, 50);
 
 
         panel.add(textField);
@@ -70,17 +74,68 @@ public class GUITree extends JPanel {
 
                 String command = textField.getText();
 
-                executeCommand(command);
 
-//                Graphics g = getGraphics();
-//                if (g != null) paintComponent(g);
-//                else repaint();
-                paintComponent(g);
+                System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()) + " :before");
+                executeCommand(command);
+                System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()) + " : after");
+
+
+                frame.setVisible(false);
+                frame.dispose();
+
+                new GUITree(1000, binarySearchTree);
+
             }
         });
 
     }
 
+    public GUITree(int preferredSize, BinarySearchTree bst) {
+        final JPanel panel = new JPanel();
+        final JFrame frame = new JFrame();
+
+
+        frame.setBounds(100, 100, 600, 400);
+
+        final JTextField textField = new JTextField();
+        textField.setPreferredSize(new Dimension(150, 24));
+
+        final JTextArea printArea = new JTextArea(50, 50);
+
+        panel.add(textField);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(new GUITree(bst));
+
+        frame.setPreferredSize(new Dimension(preferredSize, preferredSize));
+        frame.add(panel, BorderLayout.CENTER);
+        frame.pack();
+        frame.setVisible(true);
+
+        final Graphics g = panel.getGraphics();
+        g.setColor(Color.BLACK);
+
+        JButton go = new JButton("Go");
+        panel.add(go);
+        go.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String command = textField.getText();
+
+                System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()) + " :before");
+                executeCommand(command);
+                System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()) + " : after");
+
+
+                frame.setVisible(false);
+                frame.dispose();
+
+                new GUITree(1000, binarySearchTree);
+            }
+        });
+
+    }
 
 
     public void executeCommand(String command) {
@@ -230,35 +285,31 @@ public class GUITree extends JPanel {
         super.paintComponent(g);
         g.setColor(Color.BLACK);
 
-        drawTree((Graphics2D) g, getWidth() / 2, 100, binarySearchTree.getRoot());
+
+        System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()));
+        //  drawTree((Graphics2D) g, getWidth() / 2, 100, binarySearchTree.getRoot());
+        binarySearchTree.drawTree((Graphics2D) g, getWidth() / 2, 100, binarySearchTree.getRoot());
     }
 
 
-    int x = 0;
     private void drawTree(Graphics2D g2, int xPos, int yPos, BinaryTree root) {
-
         String s = root.toString();
-        if(root.getVal() == null) return;
+        if (root.getVal() == null) return;
 
         g2.drawString(s, xPos, yPos);  // Print like "value : key"
 
+//        System.out.println("---" + s);
 
-        System.out.println("---" + s);
-
-        if(root.right.getVal()!= null) {
-            g2.drawLine(xPos,yPos, xPos+100,yPos+100);
-            drawTree((Graphics2D) g2, xPos + 100, yPos + 100, root.right);
+        if (root.right.getVal() != null) {
+            g2.drawLine(xPos, yPos, xPos + 100, yPos + 100);
+            drawTree((Graphics2D) g2, xPos + 100, yPos + 100, root.getRight());
         }
-        if(root.left.getVal()!= null) {
+        if (root.left.getVal() != null) {
             g2.drawLine(xPos, yPos, xPos - 100, yPos + 100);
-            drawTree((Graphics2D) g2, xPos - 100, yPos + 100, root.left);
+            drawTree((Graphics2D) g2, xPos - 100, yPos + 100, root.getLeft());
         }
 
     }
-
-
-
-
 
 
 }
