@@ -7,13 +7,21 @@ import java.awt.event.ActionListener;
  * Created by James on 5/20/2015.
  */
 public class GUITree extends JPanel {
-    BinarySearchTree<String> binarySearchTree = new BinarySearchTree<>();
+    BinarySearchTree<String> binarySearchTree = new BinarySearchTree<String>();
     BinaryTree root;
 
 
     public static void main(String[] args) {
+//        new GUITree(1000);
 
-        GUITree guiTreePanel = new GUITree(1000);
+        BinarySearchTree<String> binarySearchTree = new BinarySearchTree<String>();
+
+        binarySearchTree = new BinarySearchTree<>();
+        binarySearchTree.add("marlow", 4);
+        binarySearchTree.add("a", 3);
+        binarySearchTree.add("b", 1);
+        binarySearchTree.add("yolo", 5);
+        new GUITree(1000, binarySearchTree);
     }
 
 
@@ -21,7 +29,7 @@ public class GUITree extends JPanel {
         setUpTree();
     }
 
-    //meant to be empty
+    //used to assign bst to the class BST. Only used in the after tree has been created. with the GUITree constructor
     public GUITree(BinarySearchTree bst) {
         this.binarySearchTree = bst;
     }
@@ -34,66 +42,73 @@ public class GUITree extends JPanel {
         binarySearchTree.add("b", 1);
         binarySearchTree.add("yolo", 5);
         binarySearchTree.add("zuse", 9);
+        System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.root)+" : in setUpTree()");
 
     }
 
 
-    // is the panel
-    public GUITree(int preferredSize) {
-        final JPanel panel = new JPanel();
-        final JFrame frame = new JFrame();
-
-
-        frame.setBounds(100, 100, 600, 400);
-
-        final JTextField textField = new JTextField();
-        textField.setPreferredSize(new Dimension(150, 24));
-
-        final JTextArea printArea = new JTextArea(50, 50);
-
-
-        panel.add(textField);
-
-
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setContentPane(new GUITree());
-        frame.setPreferredSize(new Dimension(preferredSize, preferredSize));
-        frame.add(panel, BorderLayout.CENTER);
-        frame.pack();
-        frame.setVisible(true);
-
-
-        final Graphics g = panel.getGraphics();
-        g.setColor(Color.BLACK);
-
-        JButton go = new JButton("Go");
-        panel.add(go);
-        go.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-                String command = textField.getText();
-
-
-                System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()) + " :before");
-                executeCommand(command);
-                System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()) + " : after");
-
-
-                frame.setVisible(false);
-                frame.dispose();
-
-                new GUITree(1000, binarySearchTree);
-
-            }
-        });
-
-    }
+//    // is the panel
+//    public GUITree(int preferredSize) {
+//        final JPanel panel = new JPanel();
+//        final JFrame frame = new JFrame();
+//
+//
+//        frame.setBounds(100, 100, 600, 400);
+//
+//        final JTextField textField = new JTextField();
+//        textField.setPreferredSize(new Dimension(150, 24));
+//
+//        final JTextArea printArea = new JTextArea(50, 50);
+//
+//
+//        panel.add(textField);
+//
+//
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot())+" : before creation");
+//        frame.setContentPane(new GUITree());
+//        System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot())+ " : afer creation");
+//
+//        frame.setPreferredSize(new Dimension(preferredSize, preferredSize));
+//        frame.add(panel, BorderLayout.CENTER);
+//        frame.pack();
+//        frame.setVisible(true);
+//
+//
+//        final Graphics g = panel.getGraphics();
+//        g.setColor(Color.BLACK);
+//
+//        System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()) + " : then here");
+//
+//
+//        JButton go = new JButton("Go");
+//        panel.add(go);
+//        go.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//
+//                String command = textField.getText();
+//
+//
+//                System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()) + " :before");
+//                executeCommand(command);
+//                System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()) + " : after");
+//
+//
+//                frame.setVisible(false);
+//                frame.dispose();
+//
+//                new GUITree(1000, binarySearchTree);
+//
+//            }
+//        });
+//
+//    }
 
     public GUITree(int preferredSize, BinarySearchTree bst) {
         final JPanel panel = new JPanel();
         final JFrame frame = new JFrame();
-
+        binarySearchTree = bst;
 
         frame.setBounds(100, 100, 600, 400);
 
@@ -126,7 +141,6 @@ public class GUITree extends JPanel {
                 System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()) + " :before");
                 executeCommand(command);
                 System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()) + " : after");
-
 
                 frame.setVisible(false);
                 frame.dispose();
@@ -286,13 +300,13 @@ public class GUITree extends JPanel {
         g.setColor(Color.BLACK);
 
 
-        System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()));
-        //  drawTree((Graphics2D) g, getWidth() / 2, 100, binarySearchTree.getRoot());
-        binarySearchTree.drawTree((Graphics2D) g, getWidth() / 2, 100, binarySearchTree.getRoot());
+        System.out.println(binarySearchTree.toStringPreOrder(binarySearchTree.getRoot()) + " : in paintComp");
+          drawTree((Graphics2D) g, getWidth() / 2, 100, binarySearchTree.getRoot());
+//        binarySearchTree.drawTree((Graphics2D) g, getWidth() / 2, 100, binarySearchTree.getRoot());
     }
 
 
-    private void drawTree(Graphics2D g2, int xPos, int yPos, BinaryTree root) {
+    public void drawTree(Graphics2D g2, int xPos, int yPos, BinaryTree root) {
         String s = root.toString();
         if (root.getVal() == null) return;
 
