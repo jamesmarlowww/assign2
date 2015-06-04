@@ -1,8 +1,14 @@
+import java.awt.*;
+
 public class SplayTree<T extends Comparable<T>> {
 
     private SplayTreeNode<T> root;
 
     public SplayTree() { }
+
+    public SplayTreeNode getRoot() {
+        return root;
+    }
 
     private void splay(SplayTreeNode<T> node) {
         while (node.parentExists()) {
@@ -219,6 +225,36 @@ public class SplayTree<T extends Comparable<T>> {
 
     public String toString() {
         return root.toString();
+    }
+
+    public void drawTree(Graphics2D g2, int xPos, int yPos, SplayTreeNode root, int len) {
+
+        String s = root.toString();
+        if(root.getKey() == null) return;
+
+        g2.drawString(s, xPos, yPos);  // Print like "value : key"
+
+//        System.out.println("---" + s);
+
+        if(root.right!= null) {
+            g2.drawLine(xPos,yPos, xPos+len,yPos+len);
+            drawTree((Graphics2D) g2, xPos + len, yPos + len, root.getRight(), len-20);
+        }
+        if(root.left!= null) {
+            g2.drawLine(xPos, yPos, xPos - len, yPos + len);
+            drawTree((Graphics2D) g2, xPos - len, yPos + len, root.getLeft(), len-20);
+        }
+
+    }
+
+
+    public static void main(String[] args) {
+        SplayTree s = new SplayTree();
+        s.add("sdfa");
+        s.add("ian is ");
+        System.out.println(s);
+
+
     }
 
 }

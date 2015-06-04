@@ -1,11 +1,12 @@
 public class SplayTreeNode<T extends Comparable<T>> {
 
     private final String nullNodeString = "_";
-    private SplayTreeNode<T> left;
-    private SplayTreeNode<T> right;
+    public SplayTreeNode<T> left;
+    public SplayTreeNode<T> right;
     private SplayTreeNode<T> parent;
 
-    private T key;
+    public T key;
+    private int value;
     private boolean isremoved = false;
 
     public SplayTreeNode(T key, SplayTreeNode<T> parent) {
@@ -18,6 +19,7 @@ public class SplayTreeNode<T extends Comparable<T>> {
         return key + " : { " +
                 (leftExists() ? left.toString() : nullNodeString) + " , " +
                 (rightExists() ? right.toString() : nullNodeString) + " }";
+//        return key.toString();
     }
 
     public boolean leftExists() {
