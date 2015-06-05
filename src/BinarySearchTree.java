@@ -18,7 +18,6 @@ public class BinarySearchTree<E extends Comparable<E>> {
     }
 
 
-
     protected BinaryTree<E> locate(BinaryTree<E> rootNode, E val) {
         E rootVal = rootNode.getVal();
         BinaryTree<E> child;
@@ -38,9 +37,10 @@ public class BinarySearchTree<E extends Comparable<E>> {
         BinaryTree<E> loc = locate(root, value);
         return value.equals(loc.getVal());
     }
+
     private boolean contains(String value) {
         if (root.isEmpty()) return false;
-        E valueE =  (E) value;
+        E valueE = (E) value;
         BinaryTree<E> loc = locate(root, valueE);
         return value.equals(loc.getVal());
     }
@@ -57,11 +57,11 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
         int x = 1;
         String valueStr = (String) value;
-        if(contains(value)) {
-            while(contains(valueStr+"("+String.valueOf(x)+")")) {
+        if (contains(value)) {
+            while (contains(valueStr + "(" + String.valueOf(x) + ")")) {
                 x++;
             }
-            value = (E) (valueStr+"("+String.valueOf(x)+")");
+            value = (E) (valueStr + "(" + String.valueOf(x) + ")");
         }
 
         BinaryTree<E> newNode = new BinaryTree<E>(value, mark);
@@ -89,9 +89,9 @@ public class BinarySearchTree<E extends Comparable<E>> {
     public boolean change(E existingValue, E newValue, int newMark) {
         boolean result = false;
 
-        if(contains(existingValue)) {
+        if (contains(existingValue)) {
             BinaryTree<E> loc = locate(root, existingValue);
-            if(loc!= null) {
+            if (loc != null) {
                 loc.setVal(newValue);
                 loc.setMark(newMark);
                 result = true;
@@ -151,19 +151,19 @@ public class BinarySearchTree<E extends Comparable<E>> {
     }
 
 
-    public BinaryTree<E> removeNode(BinaryTree<E> k){
+    public BinaryTree<E> removeNode(BinaryTree<E> k) {
 // Return the resulting tree after k is removed
-        if(k.left().isEmpty() && k.right().isEmpty())
+        if (k.left().isEmpty() && k.right().isEmpty())
             return (new BinaryTree<E>());   //returns new binary tree instead of EMPTY. new tree has null value
-        else if(k.left().isEmpty())
+        else if (k.left().isEmpty())
             return k.right();
-        else if(k.right().isEmpty())
+        else if (k.right().isEmpty())
             return k.left();
-        else{
-            BinaryTree<E> pre=predecessor(k);
+        else {
+            BinaryTree<E> pre = predecessor(k);
             pre.parent().setRight(pre.left());
-            BinaryTree<E> le=k.left();
-            BinaryTree<E> ri=k.right();
+            BinaryTree<E> le = k.left();
+            BinaryTree<E> ri = k.right();
             k.setLeft(new BinaryTree<E>());    //returns new binary tree instead of EMPTY. new tree has null value
             k.setRight(new BinaryTree<E>());   //returns new binary tree instead of EMPTY. new tree has null value
             pre.setLeft(le);
@@ -174,14 +174,14 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
 
     public String toString(BinaryTree root) {
-        return root.getVal()+" : "+ root.getMark();
+        return root.getVal() + " : " + root.getMark();
     }
 
     public String toStringPreOrder(BinaryTree root) {
         //// Write your code below
         String s = "";
         if (root.getVal() != null) {
-            s = "(" + root.getVal()+", "+root.getMark() + ":" + toStringPreOrder(root.left) + ")(" + toStringPreOrder(root.right) + ")";
+            s = "(" + root.getVal() + ", " + root.getMark() + ":" + toStringPreOrder(root.left) + ")(" + toStringPreOrder(root.right) + ")";
         }
         return s;
         //// Write your code above
@@ -192,21 +192,25 @@ public class BinarySearchTree<E extends Comparable<E>> {
     }
 
     public void drawTree(Graphics2D g2, int xPos, int yPos, BinaryTree root, int len) {
-
-        String s = root.toString();
-        if(root.getVal() == null) return;
+        String s = "";
+        if (root == null) {
+            return;
+        } else {
+            s = root.toString();
+        }
 
         g2.drawString(s, xPos, yPos);  // Print like "value : key"
 
+
 //        System.out.println("---" + s);
 
-        if(root.right.getVal()!= null) {
-            g2.drawLine(xPos,yPos, xPos+len,yPos+len);
-            drawTree((Graphics2D) g2, xPos + len, yPos + len, root.getRight(), len-25);
+        if (root.right.getVal() != null) {
+            g2.drawLine(xPos, yPos, xPos + len, yPos + len);
+            drawTree((Graphics2D) g2, xPos + len, yPos + len, root.getRight(), len - 25);
         }
-        if(root.left.getVal()!= null) {
+        if (root.left.getVal() != null) {
             g2.drawLine(xPos, yPos, xPos - len, yPos + len);
-            drawTree((Graphics2D) g2, xPos - len, yPos + len, root.getLeft(), len-25);
+            drawTree((Graphics2D) g2, xPos - len, yPos + len, root.getLeft(), len - 25);
         }
 
     }

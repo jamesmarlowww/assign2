@@ -228,9 +228,12 @@ public class SplayTree<T extends Comparable<T>> {
     }
 
     public void drawTree(Graphics2D g2, int xPos, int yPos, SplayTreeNode root, int len) {
-
-        String s = root.toString();
-        if(root.getKey() == null) return;
+        String s = "";
+        if (root == null) {
+            return;
+        } else {
+            s = root.toString();
+        }
 
         g2.drawString(s, xPos, yPos);  // Print like "value : key"
 

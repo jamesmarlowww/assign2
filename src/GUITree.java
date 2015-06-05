@@ -33,8 +33,6 @@ public class GUITree extends JPanel {
     public GUITree(SplayTree st) {
         this.splayTree = st;
         isBst = false;
-
-
     }
 
 
@@ -319,7 +317,7 @@ public class GUITree extends JPanel {
                 BinarySearchTree<String> binarySearchTree = new BinarySearchTree<>();
                 frame.setVisible(false);
                 frame.dispose();
-                GUITree g = new GUITree(1000, binarySearchTree);
+                new GUITree(1000, binarySearchTree);
 
             }
         });
@@ -330,7 +328,6 @@ public class GUITree extends JPanel {
                 SplayTree<String> st = new SplayTree<String>();
                 frame.setVisible(false);
                 frame.dispose();
-                st.add("marlow", 234);
                 new GUITree(1000, st);
             }
         });
