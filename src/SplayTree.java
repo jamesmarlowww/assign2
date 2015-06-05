@@ -80,30 +80,30 @@ public class SplayTree<T extends Comparable<T>> {
         x.setParent(y);
     }
 
-    public void add(T key) {
+    public void add(T key, int value) {
         if (root == null) {
-            root = new SplayTreeNode(key, null);
+            root = new SplayTreeNode(key, null, value);
             return;
         }
 
-        add(key, root);
+        add(key, root, value);
         get(key);
     }
 
-    private void add(T key, SplayTreeNode<T> node) {
+    private void add(T key, SplayTreeNode<T> node, int value) {
         if (key.compareTo( node.getKey() ) < 0) {
             if (node.leftExists()) {
-                add(key, node.getLeft());
+                add(key, node.getLeft(), value);
             } else {
-                node.setLeft(new SplayTreeNode(key, node));
+                node.setLeft(new SplayTreeNode(key, node, value));
             }
         }
 
         if (key.compareTo(node.getKey())>0) {
             if (node.rightExists()) {
-                add(key, node.getRight());
+                add(key, node.getRight(), value);
             } else {
-                node.setRight(new SplayTreeNode(key, node));
+                node.setRight(new SplayTreeNode(key, node, value));
             }
         }
     }
@@ -238,11 +238,11 @@ public class SplayTree<T extends Comparable<T>> {
 
         if(root.right!= null) {
             g2.drawLine(xPos,yPos, xPos+len,yPos+len);
-            drawTree((Graphics2D) g2, xPos + len, yPos + len, root.getRight(), len-20);
+            drawTree((Graphics2D) g2, xPos + len, yPos + len, root.getRight(), len-25);
         }
         if(root.left!= null) {
             g2.drawLine(xPos, yPos, xPos - len, yPos + len);
-            drawTree((Graphics2D) g2, xPos - len, yPos + len, root.getLeft(), len-20);
+            drawTree((Graphics2D) g2, xPos - len, yPos + len, root.getLeft(), len-25);
         }
 
     }
@@ -250,8 +250,10 @@ public class SplayTree<T extends Comparable<T>> {
 
     public static void main(String[] args) {
         SplayTree s = new SplayTree();
-        s.add("sdfa");
-        s.add("ian is ");
+        s.add("sdfa", 234);
+        s.add("ian is ", 23);
+        System.out.println(s);
+        s.remove("ian is");
         System.out.println(s);
 
 

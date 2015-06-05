@@ -202,11 +202,11 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
         if(root.right.getVal()!= null) {
             g2.drawLine(xPos,yPos, xPos+len,yPos+len);
-            drawTree((Graphics2D) g2, xPos + len, yPos + len, root.getRight(), len-20);
+            drawTree((Graphics2D) g2, xPos + len, yPos + len, root.getRight(), len-25);
         }
         if(root.left.getVal()!= null) {
             g2.drawLine(xPos, yPos, xPos - len, yPos + len);
-            drawTree((Graphics2D) g2, xPos - len, yPos + len, root.getLeft(), len-20);
+            drawTree((Graphics2D) g2, xPos - len, yPos + len, root.getLeft(), len-25);
         }
 
     }

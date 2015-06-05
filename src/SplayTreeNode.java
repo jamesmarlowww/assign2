@@ -9,17 +9,18 @@ public class SplayTreeNode<T extends Comparable<T>> {
     private int value;
     private boolean isremoved = false;
 
-    public SplayTreeNode(T key, SplayTreeNode<T> parent) {
+    public SplayTreeNode(T key, SplayTreeNode<T> parent, int value) {
         this.key = key;
         this.parent = parent;
+        this.value = value;
     }
 
     @Override
     public String toString() {
-        return key + " : { " +
-                (leftExists() ? left.toString() : nullNodeString) + " , " +
-                (rightExists() ? right.toString() : nullNodeString) + " }";
-//        return key.toString();
+//        return key + " : { " +
+//                (leftExists() ? left.toString() : nullNodeString) + " , " +
+//                (rightExists() ? right.toString() : nullNodeString) + " }";
+        return key.toString() + " : "+ value;
     }
 
     public boolean leftExists() {

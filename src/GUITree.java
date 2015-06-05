@@ -12,10 +12,6 @@ public class GUITree extends JPanel {
     BinaryTree root;
     private boolean isBst;
 
-
-
-
-
     public void setIsBst(boolean isBst) {
         this.isBst = isBst;
     }
@@ -144,8 +140,6 @@ public class GUITree extends JPanel {
             pleaseEnterValid();
             return;
         }
-
-
         if (s[0].equals("add")) {
             int mark = Integer.parseInt(s[2]);         //validity has already been checked in isCommandValid()
             binarySearchTree.add(s[1], mark);
@@ -202,11 +196,11 @@ public class GUITree extends JPanel {
 
         if (s[0].equals("add")) {
             int mark = Integer.parseInt(s[2]);         //validity has already been checked in isCommandValid()
-            splayTree.add(s[1]);
+            splayTree.add(s[1], mark);
             return;
         }
         if (s[0].equals("search")) {
-            if (binarySearchTree.contains(s[1])) {
+            if (splayTree.get(s[1])) {
                 popUpDisplayStr("Tree contains value");
             } else {
                 popUpDisplayStr("Tree doesn't contain value");
@@ -215,13 +209,12 @@ public class GUITree extends JPanel {
         }
 
         if (s[0].equals("remove")) {
-            binarySearchTree.remove(s[1]);
-            System.out.println("in remove");
+            splayTree.remove(s[1]);
             return;
         }
 
         if (s[0].equals("contains")) {
-            if (binarySearchTree.contains(s[1])) {
+            if (splayTree.get(s[1])) {
                 popUpDisplayStr("Tree contains value");
             } else {
                 popUpDisplayStr("Tree doesn't contain value");
@@ -337,7 +330,7 @@ public class GUITree extends JPanel {
                 SplayTree<String> st = new SplayTree<String>();
                 frame.setVisible(false);
                 frame.dispose();
-                st.add("marlow");
+                st.add("marlow", 234);
                 new GUITree(1000, st);
             }
         });
