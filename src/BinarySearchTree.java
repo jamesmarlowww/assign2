@@ -193,7 +193,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
     public void drawTree(Graphics2D g2, int xPos, int yPos, BinaryTree root, int len) {
         String s = "";
-        if (root == null) {
+        if (root.getVal() == null) {
             return;
         } else {
             s = root.toString();

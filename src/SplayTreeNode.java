@@ -9,6 +9,10 @@ public class SplayTreeNode<T extends Comparable<T>> {
     private int value;
     private boolean isremoved = false;
 
+    public int getMark() {
+        return value;
+    }
+
     public SplayTreeNode(T key, SplayTreeNode<T> parent, int value) {
         this.key = key;
         this.parent = parent;
@@ -17,10 +21,14 @@ public class SplayTreeNode<T extends Comparable<T>> {
 
     @Override
     public String toString() {
-//        return key + " : { " +
-//                (leftExists() ? left.toString() : nullNodeString) + " , " +
-//                (rightExists() ? right.toString() : nullNodeString) + " }";
-        return key.toString() + " : "+ value;
+
+        return key.toString() + " : " + value;
+    }
+
+    public String toStringOrignal() {
+        return key + " : { " +
+                (leftExists() ? left.toString() : nullNodeString) + " , " +
+                (rightExists() ? right.toString() : nullNodeString) + " }";
     }
 
     public boolean leftExists() {
@@ -32,7 +40,16 @@ public class SplayTreeNode<T extends Comparable<T>> {
     }
 
     public boolean parentExists() {
-        return parent != null;
+        boolean result = false;
+        try {
+            if (Boolean.TRUE.equals(parent)) {
+                result = true;
+            }
+        } catch (NullPointerException e) {
+//            result = false;
+        }
+
+        return result;
     }
 
     public T getKey() {

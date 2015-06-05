@@ -16,8 +16,6 @@ public class GUITree extends JPanel {
         this.isBst = isBst;
     }
 
-
-
     public static void main(String[] args) {
         chooseBstOrSplay();
 
@@ -193,44 +191,43 @@ public class GUITree extends JPanel {
 
 
         if (s[0].equals("add")) {
-            int mark = Integer.parseInt(s[2]);         //validity has already been checked in isCommandValid()
+            int mark = Integer.parseInt(s[2]);    //validity has already been checked in isCommandValid()
             splayTree.add(s[1], mark);
             return;
         }
         if (s[0].equals("search")) {
-            if (splayTree.get(s[1])) {
-                popUpDisplayStr("Tree contains value");
-            } else {
-                popUpDisplayStr("Tree doesn't contain value");
-            }
+            if(splayTree.getNode(s[1])== null) popUpDisplayStr("The value is: null");
+            else popUpDisplayStr("The value is: "+splayTree.getNode(s[1]).getMark());
+
             return;
         }
 
         if (s[0].equals("remove")) {
+            System.out.println("in remove");
             splayTree.remove(s[1]);
             return;
         }
 
         if (s[0].equals("contains")) {
-            if (splayTree.get(s[1])) {
-                popUpDisplayStr("Tree contains value");
+            if(splayTree.get(s[1])) {
+                popUpDisplayStr("The tree contains the value");
             } else {
-                popUpDisplayStr("Tree doesn't contain value");
+                popUpDisplayStr("The tree doesn't contain the value");
             }
+
             return;
         }
 
         if (s[0].equals("change")) {
             int mark = Integer.parseInt(s[3]);
-            if (binarySearchTree.change(s[1], s[2], mark)) {
-                binarySearchTree.change(s[1], s[2], mark);
-            } else {
-                pleaseEnterValid();
-            }
+//            if (binarySearchTree.change(s[1], s[2], mark)) {
+//                binarySearchTree.change(s[1], s[2], mark);
+//            } else {
+//                pleaseEnterValid();
+//            }
             return;
         }
 
-        System.out.println("before bottom of execute command");
         pleaseEnterValid();
     }
 
@@ -358,8 +355,6 @@ public class GUITree extends JPanel {
                 frame.setVisible(false);
             }
         });
-
-
     }
 
 
@@ -368,13 +363,10 @@ public class GUITree extends JPanel {
 
         super.paintComponent(g);
         g.setColor(Color.BLACK);
-
-
         if (isBst == true) {
             binarySearchTree.drawTree((Graphics2D) g, getWidth() / 2, 100, binarySearchTree.getRoot(), 150);
         } else {
             splayTree.drawTree((Graphics2D) g, getWidth() / 2, 100, splayTree.getRoot(), 150);
-
         }
     }
 

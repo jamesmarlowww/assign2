@@ -11,6 +11,7 @@ public class SplayTree<T extends Comparable<T>> {
     }
 
     private void splay(SplayTreeNode<T> node) {
+        if(node == null) return;
         while (node.parentExists()) {
             SplayTreeNode parent = node.getParent();
             if (!parent.parentExists()) {
@@ -137,7 +138,6 @@ public class SplayTree<T extends Comparable<T>> {
             }
             return;
         }
-
         remove(node);
     }
 
@@ -202,7 +202,7 @@ public class SplayTree<T extends Comparable<T>> {
     }
 
     private SplayTreeNode<T> get(T key, SplayTreeNode<T> node) {
-        if (key == node.getKey()) {
+        if (key.equals(node.getKey())) {
             return node;
         }
 
@@ -222,6 +222,18 @@ public class SplayTree<T extends Comparable<T>> {
 
         return null;
     }
+
+
+    public SplayTreeNode getNode(T key) {
+        if (root == null) {
+            return null;
+        }
+
+        SplayTreeNode<T> node = get(key, root);
+        splay(node);
+        return node;
+    }
+
 
     public String toString() {
         return root.toString();
@@ -253,8 +265,8 @@ public class SplayTree<T extends Comparable<T>> {
 
     public static void main(String[] args) {
         SplayTree s = new SplayTree();
-        s.add("sdfa", 234);
-        s.add("ian is ", 23);
+        s.add("a", 234);
+        s.add("ian is", 23);
         System.out.println(s);
         s.remove("ian is");
         System.out.println(s);
